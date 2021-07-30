@@ -1,0 +1,102 @@
+<mat-card (click)="select()">
+    <mat-card-title *ngIf="!selected">
+        <div class="row header">
+            <div class="text">Patient ID</div>
+            <div class="text">Blood Sugar</div>
+            <div class="text">A1C</div>
+            <div class="text">Age</div>
+            <div class="text">Weight</div>
+            <div class="text"># of Medications</div>
+            <div class="text">Time in Hosp</div>
+            <div class="text">Risk</div>
+        </div>
+    </mat-card-title>
+    <mat-card-content class="row features" *ngIf="!selected">
+        <div class="text">{{patient.patientId}}</div>
+        <div class="text">{{patient.maxGluSerum}}</div>
+        <div class="text">{{patient.A1Cresult}}</div>
+        <div class="text">{{patient.age}}</div>
+        <div class="text">{{patient.weight}}</div>
+        <div class="text">{{patient.numMedications}}</div>
+        <div class="text">{{patient.timeInHospital}}</div>
+        <div class="text risk-text" [ngClass]="{'risk': patient.risk > threshold}">{{patient.risk}}</div>
+    </mat-card-content>
+    <mat-card-content class="selected-card" *ngIf="selected">
+        <div class="simulation-container">
+            <div class="close-container">
+                <svg class="close" (click)="close()" xmlns="http://www.w3.org/2000/svg" height="24px"
+                    viewBox="0 0 24 24" width="24px" fill="#000000">
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+                </svg>
+            </div>
+            <div class="row patient-id">
+                <mat-card-title class="title">Patient ID</mat-card-title>
+                <div class="text">{{patient.patientId}}</div>
+            </div>
+            <div class="row patient-blood-sugar">
+                <mat-card-title class="title">Blood Sugar</mat-card-title>
+                <div class="text" [(ngModel)]="patient.maxGluSerum">{{patient.maxGluSerum}}</div>
+                <mat-slider class="slider" color="primary" thumbLabel min="0" max="800" step="0.5"
+                    [(ngModel)]="patient.maxGluSerum" aria-label="units">
+                </mat-slider>
+            </div>
+            <div class="row patient-a1c">
+                <mat-card-title class="title">A1C</mat-card-title>
+                <div class="text" [(ngModel)]="patient.A1Cresult">{{patient.A1Cresult}}</div>
+                <mat-slider class="slider" color="primary" thumbLabel min="0" max="13" step="0.5"
+                    [(ngModel)]="patient.A1Cresult" aria-label="units">
+                </mat-slider>
+            </div>
+            <div class="row patient-age">
+                <mat-card-title class="title">Age</mat-card-title>
+                <div class="text" [(ngModel)]="patient.age">{{patient.age}}</div>
+                <mat-slider class="slider" color="primary" thumbLabel min="0" max="100" step="1"
+                    [(ngModel)]="patient.age" aria-label="units"></mat-slider>
+            </div>
+            <div class="row patient-weight">
+                <mat-card-title class="title">Weight</mat-card-title>
+                <div class="text" [(ngModel)]="patient.weight">{{patient.weight}}</div>
+                <mat-slider class="slider" color="primary" thumbLabel min="0" max="700" step="1"
+                    [(ngModel)]="patient.weight" aria-label="units">
+                </mat-slider>
+            </div>
+            <div class="row patient-medications">
+                <mat-card-title class="title"># of Medications</mat-card-title>
+                <div class="text" [(ngModel)]="patient.numMedications">{{patient.numMedications}}</div>
+                <mat-slider class="slider" color="primary" thumbLabel min="0" max="100" step="1"
+                    [(ngModel)]="patient.numMedications" aria-label="units">
+                </mat-slider>
+            </div>
+            <div class="row patient-time-in-hospital">
+                <mat-card-title class="title">Time in Hosp</mat-card-title>
+                <div class="text" [(ngModel)]="patient.timeInHospital">{{patient.timeInHospital}}</div>
+                <mat-slider class="slider" color="primary" thumbLabel min="0" max="60" step="1"
+                    [(ngModel)]="patient.timeInHospital" aria-label="units">
+                </mat-slider>
+            </div>
+            <div class="row patient-risk">
+                <mat-card-title class="title">Risk</mat-card-title>
+                <div class="text risk-text" [ngClass]="{'risk': patient.risk > threshold}">{{patient.risk}}</div>
+            </div>
+            <mat-card-actions class="analyze">
+                <button mat-button color="primary" (click)="predict()">Predict</button>
+            </mat-card-actions>
+            <div class="patient-info">
+                <mat-card-title class="device">Device Id: {{patient.deviceId}}</mat-card-title>
+                <div class="patient">
+                    <div class="name-id">Name: <span class="name">{{patient.patientName}}</span> | Id: <span
+                            class="id">{{patient.patientId}}</span></div>
+                    <img class="avatar" [src]="patient.patientAvatar">
+                </div>
+                <p class="description">The values to the left are able to be altered to simulate device info, you can
+                    click the <b>Predict</b> button below to see if this patient is at risk of readmittance. The
+                    simulated data will be used with other data the patient has on file to determine if they are at
+                    risk. If the patient is at risk you will be receive an alert and <span
+                        class="name">{{patient.patientName}}</span> will be notified with
+                    their phone number on file [<span class="phone-number">{{patient.patientPhone}}</span>].</p>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
